@@ -75,6 +75,14 @@ claude mcp add blender uvx blender-mcp
 </details>
 
 <details>
+<summary><b>Codex</b></summary>
+
+```bash
+codex mcp add blender -- uvx blender-mcp
+```
+</details>
+
+<details>
 <summary><b>Cursor / VS Code / OpenCode / Antigravity</b></summary>
 
 See [MCP Client Setup](#mcp-client-setup) below for per-client instructions and one-click install buttons.
@@ -110,6 +118,7 @@ In Blender's 3D viewport, press `N` → open the **MCP for Blender** tab → cli
   - [Environment Variables](#environment-variables)
 - [MCP Client Setup](#mcp-client-setup)
   - [Claude for Desktop](#claude-for-desktop)
+  - [Codex](#codex)
   - [Cursor](#cursor)
   - [Visual Studio Code](#visual-studio-code)
   - [OpenCode](#opencode)
@@ -334,6 +343,37 @@ Use the Claude Code CLI to add the MCP for Blender server:
 claude mcp add blender uvx blender-mcp
 ```
 </details>
+
+### Codex
+
+The Codex CLI, desktop app, and IDE extension all share the same config file (`~/.codex/config.toml`), so setting the server up once covers all three.
+
+Register the server with the [Codex CLI](https://github.com/openai/codex):
+
+```bash
+codex mcp add blender -- uvx blender-mcp
+```
+
+Or add it by hand to `~/.codex/config.toml` (or `$CODEX_HOME/config.toml`):
+
+```toml
+[mcp_servers.blender]
+command = "uvx"
+args = ["blender-mcp"]
+```
+
+Or in the **Codex desktop app**: **Settings → MCP servers → Add server** → name it `blender`, pick **STDIO**, enter `uvx blender-mcp` as the command, then **Save** and restart. If the app can't find `uvx`, use its full path instead — see [Make your client find uvx](#make-your-client-find-uvx).
+
+Check it registered with `codex mcp list` — the `blender` server should show as **enabled**. The tools become available the next time you start Codex.
+
+To set [environment variables](#environment-variables) (e.g. a non-default Blender host/port), pass `--env KEY=VALUE` flags to `codex mcp add`, or add them in the config file:
+
+```toml
+[mcp_servers.blender]
+command = "uvx"
+args = ["blender-mcp"]
+env = { BLENDER_HOST = "localhost", BLENDER_PORT = "9876" }
+```
 
 ### Cursor
 
